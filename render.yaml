@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: regalo-keyla
+    env: static
+    buildCommand: ""
+    staticPublishPath: .
+    autoDeploy: true
