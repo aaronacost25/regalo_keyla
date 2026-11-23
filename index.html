@@ -914,6 +914,19 @@
       });
 
       actualizar();
+
+      // Avance automático
+      let auto = setInterval(() => {
+        indice = (indice + 1) % total;
+        actualizar();
+      }, 4000);
+      pista.parentElement.addEventListener('mouseenter', () => clearInterval(auto));
+      pista.parentElement.addEventListener('mouseleave', () => {
+        auto = setInterval(() => {
+          indice = (indice + 1) % total;
+          actualizar();
+        }, 4000);
+      });
     }
   </script>
 </body>
