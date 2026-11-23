@@ -428,39 +428,33 @@
       100% { transform: translateY(110vh) translateX(40px) rotate(360deg); opacity: 0; }
     }
 
-    .marquee {
-      overflow: hidden;
-      border-radius: 14px;
-      border: 1px solid var(--borde);
-      background: var(--panel);
-      padding: 10px 0;
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+      gap: 14px;
     }
 
-    .marquee-pista {
-      display: flex;
-      gap: 12px;
-      width: max-content;
-      animation: marquee 28s linear infinite;
-    }
+    .galeria figure { margin: 0; }
 
-    .marquee-pista:hover { animation-play-state: paused; }
-
-    .marquee-pista figure { margin: 0; flex: 0 0 auto; }
-
-    .marquee-pista img {
+    .galeria img {
       display: block;
-      width: 200px;
-      height: 200px;
+      width: 100%;
+      aspect-ratio: 1;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      border: 2px solid var(--borde);
     }
 
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+    .galeria figcaption {
+      margin-top: 6px;
+      color: var(--suave);
+      text-align: center;
+      font-size: .85rem;
     }
 
     .galeria-vacia {
+      grid-column: 1 / -1;
       margin: 0;
       padding: 24px;
       color: var(--suave);
@@ -472,7 +466,6 @@
     @media (prefers-reduced-motion: reduce) {
       .mem-card { transition: none; }
       .petals { display: none; }
-      .marquee-pista { animation: none; }
     }
   </style>
 </head>
@@ -543,9 +536,7 @@
     <section id="galeria">
       <h2 class="titulo-seccion">Fotos 📸</h2>
       <p class="descripcion">Un rincón para tus recuerdos.</p>
-      <div class="marquee">
-        <div class="marquee-pista" id="fotos"></div>
-      </div>
+      <div class="galeria" id="fotos"></div>
     </section>
 
     <section id="carta-seccion">
@@ -827,9 +818,9 @@
 
     // Agregá las fotos y dejalas en la misma carpeta que index.html.
     const fotos = [
-      { archivo: 'foto-1.jpg', descripcion: 'Foto de cuerpo entero en la galería' },
-      { archivo: 'foto-2.jpg', descripcion: 'Selfie con luces violetas' },
-      { archivo: 'foto-3.png', descripcion: 'Recuerdo de la infancia en el jardín de infantes' }
+      { archivo: 'foto-1.jpg', descripcion: '' },
+      { archivo: 'foto-2.jpg', descripcion: '' },
+      { archivo: 'foto-3.png', descripcion: '' }
     ];
 
     const pista = porId('fotos');
@@ -840,19 +831,20 @@
       aviso.textContent = 'Las fotos de Keyla aparecerán acá.';
       pista.append(aviso);
     } else {
-      function crearFigura({ archivo, descripcion }) {
+      fotos.forEach(({ archivo, descripcion }) => {
         const figura = document.createElement('figure');
         const imagen = document.createElement('img');
         imagen.src = archivo;
         imagen.alt = descripcion || '';
         imagen.loading = 'lazy';
         figura.append(imagen);
-        return figura;
-      }
-
-      fotos.forEach(f => pista.append(crearFigura(f)));
-      // Duplicar para loop continuo
-      fotos.forEach(f => pista.append(crearFigura(f)));
+        if (descripcion) {
+          const pie = document.createElement('figcaption');
+          pie.textContent = descripcion;
+          figura.append(pie);
+        }
+        pista.append(figura);
+      });
     }
   </script>
 </body>
