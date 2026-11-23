@@ -270,17 +270,37 @@
     .galeria, .mensajes { display: grid; gap: 14px; }
 
     .galeria {
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+      gap: 18px;
     }
 
-    .galeria figure { margin: 0; }
+    .galeria figure {
+      box-sizing: border-box;
+      position: relative;
+      aspect-ratio: 1 / 1;
+      min-width: 0;
+      margin: 0;
+      border: 1px solid #da9abb;
+      border-radius: 16px;
+      box-shadow:
+        inset 0 0 0 5px #2a172e,
+        inset 0 0 0 6px #da9abb70,
+        0 8px 22px #11081766;
+      background:
+        repeating-linear-gradient(60deg, #eab0cc26 0 1px, transparent 1px 18px),
+        repeating-linear-gradient(-60deg, #eab0cc26 0 1px, transparent 1px 18px),
+        repeating-linear-gradient(0deg, #eab0cc26 0 1px, transparent 1px 31px),
+        #3b233f;
+    }
 
     .galeria img {
+      position: absolute;
+      inset: 14px;
+      width: calc(100% - 28px);
+      height: calc(100% - 28px);
       display: block;
-      width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
-      border-radius: 14px;
+      object-fit: contain;
+      object-position: center;
     }
 
     .galeria-vacia {
@@ -314,7 +334,7 @@
       color: var(--texto);
       font: inherit;
       cursor: pointer;
-      transition: background .15s, border-color .15s;
+      transition: *background* .15s, border-color .15s;
     }
 
     .trivia-opcion:hover:not(:disabled) {
@@ -721,9 +741,9 @@
 
     // Agregá las fotos y dejalas en la misma carpeta que index.html.
     const fotos = [
-      { archivo: 'foto-1.jpg' },
-      { archivo: 'foto-2.jpg'},
-      {archivo : 'foto-3.jpg'}
+      { archivo: 'foto-1.jpg', descripcion: 'Foto de cuerpo entero en la galería' },
+      { archivo: 'foto-2.jpg', descripcion: 'Selfie con luces violetas' },
+      { archivo: 'foto-3.png', descripcion: 'Recuerdo de la infancia en el jardín de infantes' }
     ];
 
     const galeria = porId('fotos');
